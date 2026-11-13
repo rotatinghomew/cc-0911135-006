@@ -1,0 +1,3 @@
+{
+  "version":"rules-1","rules":[{"id":"nickel-table","tableId":"assays","requiredHeaders":["材料号","部位","Ni/结果","Ni/单位","状态"],"targetUnit":"mg/kg"}]
+}
