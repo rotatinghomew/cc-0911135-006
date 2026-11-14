@@ -1,0 +1,30 @@
+{
+  "ruleVersion": "rules-1",
+  "description": "初版规则：仅识别 id=assays 的两层表头表格；单位列必填，只接受 mg/kg，不做单位换算；脚注仅留存不核验。适用范围：data/bulletin.html 的 normal 版式。",
+  "tables": [
+    {
+      "id": "nickel-table",
+      "match": { "tableId": "assays" },
+      "element": "Ni",
+      "headers": {
+        "material": { "paths": [["材料号"]], "required": true },
+        "part": { "paths": [["部位"]], "required": true },
+        "value": { "paths": [["Ni", "结果"], ["Ni/结果"]], "required": true },
+        "unit": { "paths": [["Ni", "单位"], ["Ni/单位"]], "required": true },
+        "state": { "paths": [["状态"]], "required": true }
+      },
+      "unit": {
+        "target": "mg/kg",
+        "accept": [{ "unit": "mg/kg", "factor": 1 }],
+        "onConflict": "quarantine-row",
+        "onMissing": "quarantine-row"
+      },
+      "stateMap": {
+        "有效": "valid",
+        "撤回": "withdrawn",
+        "未检": "not-tested"
+      },
+      "footnotes": { "verifyBelowLimit": false }
+    }
+  ]
+}

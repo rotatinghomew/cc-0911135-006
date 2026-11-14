@@ -12,7 +12,10 @@
     "build": "node tools/check.mjs",
     "test": "node --test test/*.test.mjs",
     "demo": "node tools/demo.mjs",
-    "verify": "node test/verify.mjs"
+    "verify": "node test/verify.mjs",
+    "capture": "node tools/capture.mjs",
+    "extract": "node tools/extract.mjs",
+    "pipeline": "node tools/pipeline.mjs"
   },
   "dependencies": {
     "parse5": "7.3.0"

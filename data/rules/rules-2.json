@@ -1,0 +1,38 @@
+{
+  "ruleVersion": "rules-2",
+  "supersedes": "rules-1",
+  "description": "第二版规则：在 rules-1 基础上放宽版式——支持 Accession 紧凑表头、表头括号内嵌单位、µg/g 与 mg/kg 等价换算（系数 1）、状态列缺省按有效处理，并对低于检出限记录强制核验脚注。适用范围：normal 版式与 windows-1252 紧凑表；不改变 rules-1 对缺失关键表头的阻断口径，单位列缺失降级为逐行隔离。",
+  "tables": [
+    {
+      "id": "nickel-table-v2",
+      "match": { "tableId": "assays" },
+      "element": "Ni",
+      "headers": {
+        "material": { "paths": [["材料号"], ["Accession"]], "required": true },
+        "part": { "paths": [["部位"]], "required": false },
+        "value": { "paths": [["Ni", "结果"], ["Ni/结果"], ["Ni (µg/g)"], ["Ni"]], "required": true },
+        "unit": { "paths": [["Ni", "单位"], ["Ni/单位"]], "required": false },
+        "state": { "paths": [["状态"]], "required": false, "default": "valid" }
+      },
+      "headerEmbeddedUnit": {
+        "pattern": "\\(([^()]+)\\)",
+        "applyTo": ["value"]
+      },
+      "unit": {
+        "target": "mg/kg",
+        "accept": [
+          { "unit": "mg/kg", "factor": 1 },
+          { "unit": "µg/g", "factor": 1 }
+        ],
+        "onConflict": "quarantine-row",
+        "onMissing": "quarantine-row"
+      },
+      "stateMap": {
+        "有效": "valid",
+        "撤回": "withdrawn",
+        "未检": "not-tested"
+      },
+      "footnotes": { "verifyBelowLimit": true }
+    }
+  ]
+}
